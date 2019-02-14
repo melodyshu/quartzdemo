@@ -8,6 +8,7 @@ public class Main {
         Scheduler scheduler= StdSchedulerFactory.getDefaultScheduler();
         JobDetail jobDetail= JobBuilder.newJob(HelloJob.class)
                 .withIdentity("job1","group1")
+                .usingJobData("message","消息数据")
                 .build();
         System.out.println("job名称:"+jobDetail.getKey().getName());
         System.out.println("job组名称:"+jobDetail.getKey().getGroup());
@@ -17,6 +18,7 @@ public class Main {
                 .withIdentity("trigger1","group1")
                 .startNow()
                 .withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(5))
+                .usingJobData("message","触发器数据")
                 .build();
         scheduler.scheduleJob(jobDetail,trigger);
         scheduler.start();

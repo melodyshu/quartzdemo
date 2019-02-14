@@ -1,14 +1,17 @@
 package com.fxkt;
 
-import org.quartz.Job;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
-import org.quartz.JobKey;
+import org.quartz.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class HelloJob implements Job {
+    private String message;
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         Date dt=new Date();
@@ -20,7 +23,12 @@ public class HelloJob implements Job {
         System.out.println(jobKey.getName()+"--"+jobKey.getGroup());
         System.out.println(jobExecutionContext.getJobDetail().getJobClass().getName());
         System.out.println(jobExecutionContext.getJobDetail().getJobClass().getSimpleName());
+        JobDataMap jobDataMap= jobExecutionContext.getJobDetail().getJobDataMap();
+        System.out.println("任务数据的参数值:"+jobDataMap.getString("message"));
         //获取trigger内容
+        JobDataMap triggerDataMap= jobExecutionContext.getTrigger().getJobDataMap();
+        System.out.println("trigger数据的参数值:"+triggerDataMap.getString("message"));
 
+        System.out.println("message的值:"+message);
     }
 }
