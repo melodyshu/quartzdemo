@@ -5,11 +5,18 @@ import org.quartz.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@PersistJobDataAfterExecution
 public class HelloJob implements Job {
     private String message;
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    private Integer count;
+
+    public void setCount(Integer count) {
+        this.count = count;
     }
 
     @Override
@@ -30,5 +37,8 @@ public class HelloJob implements Job {
         System.out.println("trigger数据的参数值:"+triggerDataMap.getString("message"));
 
         System.out.println("message的值:"+message);
+        ++count;
+        System.out.println("count的值:"+count);
+        jobExecutionContext.getJobDetail().getJobDataMap().put("count",count);
     }
 }

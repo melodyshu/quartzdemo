@@ -9,6 +9,7 @@ public class Main {
         JobDetail jobDetail= JobBuilder.newJob(HelloJob.class)
                 .withIdentity("job1","group1")
                 .usingJobData("message","消息数据")
+                .usingJobData("count",0)
                 .build();
         System.out.println("job名称:"+jobDetail.getKey().getName());
         System.out.println("job组名称:"+jobDetail.getKey().getGroup());
